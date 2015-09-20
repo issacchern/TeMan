@@ -36,12 +36,11 @@ public class ListFragment extends Fragment {
 
     public ListFragment(){
 
-
     }
 
 
     public void refresh(){
-        Firebase ref = new Firebase("https://teman.firebaseio.com/");
+        Firebase ref = new Firebase("https://temanapp.firebaseio.com");
 
         ref.addChildEventListener(new ChildEventListener() {
             // Retrieve new posts as they are added to the database
@@ -50,9 +49,7 @@ public class ListFragment extends Fragment {
                 User newPost = snapshot.getValue(User.class);
                 Log.v(" abc ", " " + newPost.getTitle() + " --- " + userArray.size());
                 userArray.add(newPost);
-//                for (int i = 0; i < testArray.size(); i++) {
-//                    Log.v(" wow", "inside" + testArray.get(i));
-//                }
+                customAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -82,6 +79,7 @@ public class ListFragment extends Fragment {
                     ,user.getName(), user.getphoneNumber()));
 
         }
+
     }
 
 
@@ -109,20 +107,14 @@ public class ListFragment extends Fragment {
 
         Button button = (Button) rootView.findViewById(R.id.inviteButton);
 
+        Log.v("DDD", "" + userArray.size());
+
         customAdapter = new CustomAdapter(getActivity(), userArray);
 
-
+        refresh();
 
         ListView listView = (ListView) rootView.findViewById(R.id.eventListView);
         listView.setAdapter(customAdapter);
-
-
-
-
-
-
-
-
 
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -139,14 +131,12 @@ public class ListFragment extends Fragment {
                 // when click, pass the title to the detail fragment.
                 // use the title to get the related components.
                 String selectedItem = userArray.get(position).getTitle();
-           //     Intent intent = new Intent(getActivity(), DetailActivity.class)
-           //             .putExtra(Intent.EXTRA_TEXT, selectedItem);
-           //     startActivity(intent);
+                //     Intent intent = new Intent(getActivity(), DetailActivity.class)
+                //             .putExtra(Intent.EXTRA_TEXT, selectedItem);
+                //     startActivity(intent);
 
             }
         });
-
-
 
         return rootView;
     }
@@ -155,69 +145,18 @@ public class ListFragment extends Fragment {
     {
         @Override
         protected void onPreExecute() {
-            Firebase ref = new Firebase("https://teman.firebaseio.com/");
 
-            ref.addChildEventListener(new ChildEventListener() {
-                // Retrieve new posts as they are added to the database
-                @Override
-                public void onChildAdded(DataSnapshot snapshot, String previousChildKey) {
-                    User newPost = snapshot.getValue(User.class);
-                    Log.v(" abc ", " " + newPost.getTitle() + " --- " + userArray.size());
-                    userArray.add(newPost);
-//                for (int i = 0; i < testArray.size(); i++) {
-//                    Log.v(" wow", "inside" + testArray.get(i));
-//                }
-                }
-
-                @Override
-                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                    String eventTitle = (String) dataSnapshot.child("title").getValue();
-                    testArray.add(eventTitle);
-                    Log.v("aaa", "test array" + testArray.size());
-                }
-
-                @Override
-                public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-                }
-
-                @Override
-                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-                }
-
-                @Override
-                public void onCancelled(FirebaseError firebaseError) {
-
-                }
-            });
             super.onPreExecute();
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
 
-
-
-            Log.v("aaa", "XXXX8888888888888888XXX555555555555XXXX");
-//            try {
-//                Thread.sleep(5000);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-
             return null;
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
-
-            customAdapter.clear();
-            for(User user : userArray) {
-                customAdapter.add(new User(user.getTitle(), user.getDescription()
-                        ,user.getName(), user.getphoneNumber()));
-
-            }
 
 
             super.onPostExecute(aVoid);

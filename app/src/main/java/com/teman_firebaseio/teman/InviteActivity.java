@@ -61,7 +61,7 @@ public class InviteActivity extends AppCompatActivity {
 
 
 
-                            Firebase ref = new Firebase("https://teman.firebaseio.com/");
+                            Firebase ref = new Firebase("https://temanapp.firebaseio.com");
 
                             User input = new User( edit_title,edit_desc,edit_name,edit_tel);
 
