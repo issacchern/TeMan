@@ -1,49 +1,26 @@
 package com.teman_firebaseio.teman;
 
-import android.support.v4.app.Fragment;
-import android.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 
-import com.firebase.client.ChildEventListener;
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
-
-import java.util.ArrayList;
-import java.util.List;
-
-public class MainActivity extends AppCompatActivity {
-
-    private CustomAdapter customAdapter;
-    private ArrayList<User> userArray = new ArrayList<User>();
+/**
+ * Created by Issac on 9/19/2015.
+ */
+public class DetailActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-
-
-
-
-        Firebase.setAndroidContext(this);
-
-
-
-
+        setContentView(R.layout.activity_detail);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new ListFragment())
+                    .add(R.id.fragment, new DetailActivityFragment())
                     .commit();
         }
     }
-
 
 
     @Override
@@ -62,15 +39,9 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-
-
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
-
-
-
-
 }
